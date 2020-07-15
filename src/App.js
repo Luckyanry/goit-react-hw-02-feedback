@@ -1,26 +1,64 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  state = {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
+
+  updateState = (type) => {
+    this.setState((prevState) => {
+      return {
+        [type]: prevState[type] + 1,
+      };
+    });
+  };
+
+  countTotalFeedback = () => {
+    const stateValues = Object.values(this.state);
+    return stateValues.reduce((acc, item) => acc + item, 0);
+  };
+
+  countPositiveFeedbackPercentage = () => {
+    const percentageCounter =
+      (this.state.good * 100) / this.countTotalFeedback();
+
+    return this.state.good > 0 ? percentageCounter.toFixed(0) : this.state.good;
+  };
+
+  render() {
+    const { good, neutral, bad } = this.state;
+
+    return (
+      <div>
+        <h2>Please leave feedback</h2>
+        <div>
+          <button onClick={() => this.updateState("good")}>Good</button>
+          <button onClick={() => this.updateState("neutral")}>Neutral</button>
+          <button onClick={() => this.updateState("bad")}>Bad</button>
+        </div>
+
+        <h2>Statistics</h2>
+        <ul>
+          {this.countPositiveFeedbackPercentage() === 0 ? (
+            <li>No feedback given</li>
+          ) : (
+            <>
+              <li>Good: {good}</li>
+              <li>Neutral: {neutral}</li>
+              <li>Bad: {bad}</li>
+              <li>Total: {this.countTotalFeedback()}</li>
+              <li>
+                Positive feedback: {this.countPositiveFeedbackPercentage()}%
+              </li>
+            </>
+          )}
+        </ul>
+      </div>
+    );
+  }
 }
 
 export default App;
