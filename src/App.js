@@ -19,6 +19,9 @@ class App extends Component {
   countTotalFeedback = () => {
     const stateValues = Object.values(this.state);
     return stateValues.reduce((acc, item) => acc + item, 0);
+
+    // const { good, neutral, bad } = this.state;
+    // return good + neutral + bad;
   };
 
   countPositiveFeedbackPercentage = () => {
@@ -35,9 +38,15 @@ class App extends Component {
       <div>
         <h2>Please leave feedback</h2>
         <div>
-          <button onClick={() => this.updateState("good")}>Good</button>
-          <button onClick={() => this.updateState("neutral")}>Neutral</button>
-          <button onClick={() => this.updateState("bad")}>Bad</button>
+          <button type="button" onClick={() => this.updateState("good")}>
+            Good
+          </button>
+          <button type="button" onClick={() => this.updateState("neutral")}>
+            Neutral
+          </button>
+          <button type="button" onClick={() => this.updateState("bad")}>
+            Bad
+          </button>
         </div>
 
         <h2>Statistics</h2>
